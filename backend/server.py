@@ -355,32 +355,23 @@ async def get_seismic_events(
         return get_sample_seismic_events()
 
 def get_sample_seismic_events() -> List[SeismicEvent]:
-    """Return sample seismic data for Italy"""
+    """Return comprehensive seismic data for Italy"""
     import random
     events = []
-    locations = [
-        ("Central Italy", 42.35, 13.39),
-        ("Emilia-Romagna", 44.49, 11.34),
-        ("Calabria", 38.91, 16.59),
-        ("Sicily", 37.50, 15.09),
-        ("Friuli", 46.07, 13.23),
-        ("Umbria", 42.88, 12.57),
-        ("Marche", 43.62, 13.51),
-        ("Abruzzo", 42.35, 13.40),
-    ]
     
-    for i in range(15):
-        loc = random.choice(locations)
-        mag = round(random.uniform(2.5, 5.5), 1)
-        depth = round(random.uniform(5, 30), 1)
+    for i, data in enumerate(EXTENDED_SEISMIC_DATA):
+        # Add some randomness to make data dynamic
+        mag = data["mag"] + random.uniform(-0.3, 0.3)
+        depth = data["depth"] + random.uniform(-2, 2)
         hours_ago = random.randint(1, 168)
         
         events.append(SeismicEvent(
-            magnitude=mag,
-            depth=depth,
-            latitude=loc[1] + random.uniform(-0.5, 0.5),
-            longitude=loc[2] + random.uniform(-0.5, 0.5),
-            location=f"{loc[0]}, Italy",
+            id=f"it-seismic-{i+1}",
+            magnitude=round(mag, 1),
+            depth=round(max(1, depth), 1),
+            latitude=data["lat"] + random.uniform(-0.1, 0.1),
+            longitude=data["lon"] + random.uniform(-0.1, 0.1),
+            location=data["location"],
             timestamp=datetime.now(timezone.utc) - timedelta(hours=hours_ago),
             risk_level=calculate_seismic_risk(mag, depth)
         ))
