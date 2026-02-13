@@ -1,4 +1,4 @@
-# DisasterWatch Italy - Product Requirements Document
+# RE-ACT Mediterranean - Product Requirements Document
 
 ## Original Problem Statement
 Build an Italy-focused disaster risk management and prediction platform covering:
