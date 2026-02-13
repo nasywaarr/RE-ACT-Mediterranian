@@ -407,36 +407,33 @@ async def get_seismic_stats():
 @api_router.get("/flood/alerts", response_model=List[FloodAlert])
 async def get_flood_alerts():
     """Get current flood alerts for Italy"""
-    # In production, this would connect to Italian Civil Protection / ISPRA
-    # For now, return intelligent sample data based on typical risk areas
-    
-    alerts = []
-    high_risk_areas = [
-        ("Po Valley - Emilia-Romagna", 44.8, 11.6, "Po", True),
-        ("Venice Lagoon", 45.44, 12.32, "Adriatic", False),
-        ("Arno Basin - Tuscany", 43.77, 11.25, "Arno", False),
-        ("Tevere Basin - Lazio", 41.90, 12.50, "Tevere", False),
-        ("Calabria Coast", 38.90, 16.58, "Mediterranean", True),
-    ]
-    
     import random
-    for area in high_risk_areas:
-        if random.random() > 0.4:  # 60% chance of alert
-            risk = random.choice(["low", "moderate", "high"])
-            if area[4]:  # High risk area
-                risk = random.choice(["moderate", "high", "critical"])
-            
-            alerts.append(FloodAlert(
-                region=area[0],
-                risk_level=risk,
-                river_name=area[3],
-                water_level=round(random.uniform(2.0, 8.0), 1),
-                predicted_peak=datetime.now(timezone.utc) + timedelta(hours=random.randint(6, 48)),
-                evacuation_advised=risk in ["high", "critical"],
-                affected_population=random.randint(5000, 50000) if risk in ["high", "critical"] else None,
-                latitude=area[1],
-                longitude=area[2]
-            ))
+    alerts = []
+    
+    for data in EXTENDED_FLOOD_DATA:
+        # Generate realistic water levels and risk
+        water_level = round(random.uniform(1.5, 6.0), 1)
+        
+        if data["high_risk"]:
+            risk = random.choice(["high", "critical"])
+            water_level = round(random.uniform(3.5, 7.5), 1)
+        else:
+            risk = random.choice(["low", "moderate", "moderate"])
+        
+        # Calculate if evacuation should be advised
+        evacuation = risk in ["high", "critical"] and water_level > 4.5
+        
+        alerts.append(FloodAlert(
+            region=data["region"],
+            risk_level=risk,
+            river_name=data["river"],
+            water_level=water_level,
+            predicted_peak=datetime.now(timezone.utc) + timedelta(hours=random.randint(6, 48)),
+            evacuation_advised=evacuation,
+            affected_population=random.randint(10000, 100000) if risk in ["high", "critical"] else None,
+            latitude=data["lat"],
+            longitude=data["lon"]
+        ))
     
     return alerts
 
