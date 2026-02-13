@@ -454,89 +454,45 @@ async def get_flood_stats():
 @api_router.get("/heatwave/alerts", response_model=List[HeatWaveAlert])
 async def get_heatwave_alerts():
     """Get heat wave alerts for major Italian cities"""
+    import random
     alerts = []
     
-    cities = [
-        ("Roma", "Lazio", 41.9028, 12.4964),
-        ("Milano", "Lombardia", 45.4642, 9.1900),
-        ("Napoli", "Campania", 40.8518, 14.2681),
-        ("Palermo", "Sicilia", 38.1157, 13.3615),
-        ("Firenze", "Toscana", 43.7696, 11.2558),
-        ("Bologna", "Emilia-Romagna", 44.4949, 11.3426),
-        ("Bari", "Puglia", 41.1171, 16.8719),
-        ("Catania", "Sicilia", 37.5079, 15.0830),
-    ]
+    for city_data in EXTENDED_HEAT_CITIES:
+        # Generate temperature based on base temp with variation
+        temp = city_data["base_temp"] + random.uniform(-3, 5)
+        humidity = random.uniform(35, 75)
+        feels_like = temp + (humidity / 15)  # Heat index approximation
+        
+        risk_level = calculate_heat_risk(temp, humidity)
+        
+        # Generate appropriate advisory based on risk
+        if risk_level == "critical":
+            advisory = "EXTREME HEAT EMERGENCY - Seek air conditioning immediately. Check on elderly and vulnerable."
+            duration = random.randint(48, 96)
+        elif risk_level == "high":
+            advisory = "HIGH HEAT WARNING - Limit outdoor activities. Stay hydrated. Avoid peak sun hours."
+            duration = random.randint(24, 72)
+        elif risk_level == "moderate":
+            advisory = "HEAT ADVISORY - Stay hydrated and take regular breaks from heat exposure."
+            duration = random.randint(12, 48)
+        else:
+            advisory = "Normal summer conditions. Standard heat precautions recommended."
+            duration = random.randint(6, 24)
+        
+        alerts.append(HeatWaveAlert(
+            region=f"{city_data['city']}, {city_data['region']}",
+            temperature=round(temp, 1),
+            feels_like=round(feels_like, 1),
+            humidity=round(humidity, 1),
+            risk_level=risk_level,
+            duration_hours=duration,
+            latitude=city_data["lat"],
+            longitude=city_data["lon"],
+            advisory=advisory
+        ))
     
-    try:
-        async with httpx.AsyncClient(timeout=15.0) as client_http:
-            for city_name, region, lat, lon in cities:
-                try:
-                    # Try OpenWeatherMap API
-                    url = f"https://api.openweathermap.org/data/2.5/weather"
-                    params = {
-                        "lat": lat,
-                        "lon": lon,
-                        "appid": OPENWEATHERMAP_API_KEY,
-                        "units": "metric"
-                    }
-                    response = await client_http.get(url, params=params)
-                    
-                    if response.status_code == 200:
-                        data = response.json()
-                        temp = data["main"]["temp"]
-                        feels_like = data["main"]["feels_like"]
-                        humidity = data["main"]["humidity"]
-                    else:
-                        # Use simulated data
-                        import random
-                        temp = random.uniform(28, 42)
-                        feels_like = temp + random.uniform(2, 8)
-                        humidity = random.uniform(30, 70)
-                        
-                except Exception:
-                    import random
-                    temp = random.uniform(28, 42)
-                    feels_like = temp + random.uniform(2, 8)
-                    humidity = random.uniform(30, 70)
-                
-                risk_level = calculate_heat_risk(temp, humidity)
-                
-                if risk_level in ["moderate", "high", "critical"]:
-                    advisory = "Stay hydrated and avoid outdoor activities" if risk_level == "moderate" else \
-                              "Heat emergency - seek air conditioning, check on elderly" if risk_level == "critical" else \
-                              "High heat warning - limit outdoor exposure"
-                    
-                    alerts.append(HeatWaveAlert(
-                        region=f"{city_name}, {region}",
-                        temperature=round(temp, 1),
-                        feels_like=round(feels_like, 1),
-                        humidity=round(humidity, 1),
-                        risk_level=risk_level,
-                        duration_hours=random.randint(6, 72),
-                        latitude=lat,
-                        longitude=lon,
-                        advisory=advisory
-                    ))
-                    
-    except Exception as e:
-        logger.error(f"Error fetching weather data: {e}")
-        # Return sample data
-        import random
-        for city_name, region, lat, lon in cities[:4]:
-            temp = random.uniform(32, 42)
-            alerts.append(HeatWaveAlert(
-                region=f"{city_name}, {region}",
-                temperature=round(temp, 1),
-                feels_like=round(temp + 5, 1),
-                humidity=round(random.uniform(40, 70), 1),
-                risk_level=random.choice(["moderate", "high"]),
-                duration_hours=random.randint(12, 48),
-                latitude=lat,
-                longitude=lon,
-                advisory="Heat warning - stay hydrated and seek shade"
-            ))
-    
-    return alerts
+    # Sort by temperature (hottest first)
+    return sorted(alerts, key=lambda x: x.temperature, reverse=True)
 
 @api_router.get("/heatwave/stats")
 async def get_heatwave_stats():
