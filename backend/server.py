@@ -200,6 +200,16 @@ SAMPLE_HOSPITALS = [
     {"name": "Ospedale Civico", "city": "Palermo", "region": "Sicilia", "lat": 38.1157, "lon": 13.3519, "total_beds": 500, "icu_beds": 40},
     {"name": "Ospedale dell'Angelo", "city": "Venezia", "region": "Veneto", "lat": 45.4865, "lon": 12.2407, "total_beds": 650, "icu_beds": 50},
     {"name": "Policlinico Sant'Orsola", "city": "Bologna", "region": "Emilia-Romagna", "lat": 44.4937, "lon": 11.3527, "total_beds": 1500, "icu_beds": 130},
+    {"name": "Ospedale Careggi", "city": "Firenze", "region": "Toscana", "lat": 43.7996, "lon": 11.2499, "total_beds": 1400, "icu_beds": 110},
+    {"name": "Ospedale Molinette", "city": "Torino", "region": "Piemonte", "lat": 45.0424, "lon": 7.6748, "total_beds": 1200, "icu_beds": 95},
+    {"name": "Ospedale San Martino", "city": "Genova", "region": "Liguria", "lat": 44.4327, "lon": 8.9634, "total_beds": 950, "icu_beds": 75},
+    {"name": "Ospedale Riuniti", "city": "Foggia", "region": "Puglia", "lat": 41.4547, "lon": 15.5502, "total_beds": 600, "icu_beds": 45},
+    {"name": "Policlinico Bari", "city": "Bari", "region": "Puglia", "lat": 41.1088, "lon": 16.8663, "total_beds": 850, "icu_beds": 65},
+    {"name": "Ospedale Garibaldi", "city": "Catania", "region": "Sicilia", "lat": 37.5155, "lon": 15.0963, "total_beds": 750, "icu_beds": 60},
+    {"name": "Ospedale Brotzu", "city": "Cagliari", "region": "Sardegna", "lat": 39.2238, "lon": 9.1217, "total_beds": 550, "icu_beds": 42},
+    {"name": "Ospedale Santa Maria della Misericordia", "city": "Udine", "region": "Friuli-Venezia Giulia", "lat": 46.0601, "lon": 13.2194, "total_beds": 700, "icu_beds": 55},
+    {"name": "Ospedale Santa Chiara", "city": "Trento", "region": "Trentino-Alto Adige", "lat": 46.0679, "lon": 11.1257, "total_beds": 600, "icu_beds": 48},
+    {"name": "Ospedale San Gerardo", "city": "Monza", "region": "Lombardia", "lat": 45.5845, "lon": 9.2744, "total_beds": 680, "icu_beds": 52},
 ]
 
 SAFE_ZONES = [
