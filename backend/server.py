@@ -209,6 +209,67 @@ SAFE_ZONES = [
     {"name": "Altura Sicura Colli Romani", "type": "flood_high_ground", "lat": 41.7476, "lon": 12.7047, "capacity": 10000, "region": "Lazio"},
     {"name": "Rifugio Vesuvio", "type": "earthquake_shelter", "lat": 40.8218, "lon": 14.4262, "capacity": 8000, "region": "Campania"},
     {"name": "Centro Emergenza Etna", "type": "earthquake_shelter", "lat": 37.7510, "lon": 14.9934, "capacity": 6000, "region": "Sicilia"},
+    {"name": "Centro Evacuazione Venezia", "type": "flood_high_ground", "lat": 45.4408, "lon": 12.3155, "capacity": 4000, "region": "Veneto"},
+    {"name": "Rifugio Alto Bologna", "type": "earthquake_shelter", "lat": 44.4949, "lon": 11.3426, "capacity": 3500, "region": "Emilia-Romagna"},
+    {"name": "Centro Raffreddamento Palermo", "type": "cooling_center", "lat": 38.1157, "lon": 13.3615, "capacity": 2500, "region": "Sicilia"},
+    {"name": "Area Sicura Firenze", "type": "earthquake_shelter", "lat": 43.7696, "lon": 11.2558, "capacity": 4500, "region": "Toscana"},
+]
+
+# Extended seismic data for Italy - realistic recent events
+EXTENDED_SEISMIC_DATA = [
+    {"location": "Central Italy - Amatrice", "lat": 42.628, "lon": 13.292, "mag": 5.2, "depth": 8.1},
+    {"location": "Emilia-Romagna - Modena", "lat": 44.647, "lon": 10.925, "mag": 4.8, "depth": 6.5},
+    {"location": "Calabria - Cosenza", "lat": 39.298, "lon": 16.254, "mag": 4.5, "depth": 12.3},
+    {"location": "Sicily - Catania", "lat": 37.502, "lon": 15.087, "mag": 4.2, "depth": 10.0},
+    {"location": "Friuli-Venezia Giulia", "lat": 46.073, "lon": 13.235, "mag": 3.9, "depth": 8.7},
+    {"location": "Umbria - Norcia", "lat": 42.792, "lon": 13.089, "mag": 4.6, "depth": 9.2},
+    {"location": "Marche - Ancona", "lat": 43.617, "lon": 13.519, "mag": 3.7, "depth": 15.4},
+    {"location": "Abruzzo - L'Aquila", "lat": 42.354, "lon": 13.392, "mag": 5.1, "depth": 7.8},
+    {"location": "Campania - Benevento", "lat": 41.130, "lon": 14.782, "mag": 3.4, "depth": 11.2},
+    {"location": "Basilicata - Potenza", "lat": 40.640, "lon": 15.805, "mag": 3.8, "depth": 14.6},
+    {"location": "Toscana - Arezzo", "lat": 43.463, "lon": 11.880, "mag": 3.2, "depth": 9.8},
+    {"location": "Lazio - Rieti", "lat": 42.404, "lon": 12.857, "mag": 4.3, "depth": 8.4},
+    {"location": "Puglia - Foggia", "lat": 41.462, "lon": 15.544, "mag": 3.1, "depth": 18.2},
+    {"location": "Molise - Campobasso", "lat": 41.561, "lon": 14.656, "mag": 3.5, "depth": 12.7},
+    {"location": "Liguria - Genova", "lat": 44.407, "lon": 8.934, "mag": 2.9, "depth": 7.3},
+    {"location": "Piemonte - Cuneo", "lat": 44.384, "lon": 7.543, "mag": 2.8, "depth": 6.1},
+    {"location": "Veneto - Verona", "lat": 45.438, "lon": 10.992, "mag": 3.0, "depth": 10.5},
+    {"location": "Sardegna - Nuoro", "lat": 40.321, "lon": 9.330, "mag": 2.7, "depth": 8.9},
+]
+
+# Extended flood data
+EXTENDED_FLOOD_DATA = [
+    {"region": "Po Valley - Emilia-Romagna", "lat": 44.8, "lon": 11.6, "river": "Po", "high_risk": True},
+    {"region": "Venice Lagoon - Veneto", "lat": 45.44, "lon": 12.32, "river": "Adriatic", "high_risk": True},
+    {"region": "Arno Basin - Tuscany", "lat": 43.77, "lon": 11.25, "river": "Arno", "high_risk": False},
+    {"region": "Tevere Basin - Lazio", "lat": 41.90, "lon": 12.50, "river": "Tevere", "high_risk": False},
+    {"region": "Calabria Coast - Reggio", "lat": 38.11, "lon": 15.65, "river": "Mediterranean", "high_risk": True},
+    {"region": "Liguria Coast - Genova", "lat": 44.41, "lon": 8.93, "river": "Ligurian Sea", "high_risk": True},
+    {"region": "Campania Coast - Salerno", "lat": 40.68, "lon": 14.77, "river": "Tyrrhenian", "high_risk": False},
+    {"region": "Friuli Plains - Udine", "lat": 46.06, "lon": 13.24, "river": "Tagliamento", "high_risk": False},
+    {"region": "Adige Valley - Trento", "lat": 46.07, "lon": 11.12, "river": "Adige", "high_risk": False},
+    {"region": "Sicily East Coast - Messina", "lat": 38.19, "lon": 15.55, "river": "Ionian", "high_risk": True},
+    {"region": "Puglia Coast - Bari", "lat": 41.12, "lon": 16.87, "river": "Adriatic", "high_risk": False},
+    {"region": "Sardegna North - Sassari", "lat": 40.73, "lon": 8.56, "river": "Mediterranean", "high_risk": False},
+]
+
+# Extended heat wave cities
+EXTENDED_HEAT_CITIES = [
+    {"city": "Roma", "region": "Lazio", "lat": 41.9028, "lon": 12.4964, "base_temp": 38},
+    {"city": "Milano", "region": "Lombardia", "lat": 45.4642, "lon": 9.1900, "base_temp": 35},
+    {"city": "Napoli", "region": "Campania", "lat": 40.8518, "lon": 14.2681, "base_temp": 39},
+    {"city": "Palermo", "region": "Sicilia", "lat": 38.1157, "lon": 13.3615, "base_temp": 42},
+    {"city": "Firenze", "region": "Toscana", "lat": 43.7696, "lon": 11.2558, "base_temp": 37},
+    {"city": "Bologna", "region": "Emilia-Romagna", "lat": 44.4949, "lon": 11.3426, "base_temp": 36},
+    {"city": "Bari", "region": "Puglia", "lat": 41.1171, "lon": 16.8719, "base_temp": 40},
+    {"city": "Catania", "region": "Sicilia", "lat": 37.5079, "lon": 15.0830, "base_temp": 43},
+    {"city": "Torino", "region": "Piemonte", "lat": 45.0703, "lon": 7.6869, "base_temp": 34},
+    {"city": "Genova", "region": "Liguria", "lat": 44.4056, "lon": 8.9463, "base_temp": 33},
+    {"city": "Venezia", "region": "Veneto", "lat": 45.4408, "lon": 12.3155, "base_temp": 34},
+    {"city": "Verona", "region": "Veneto", "lat": 45.4384, "lon": 10.9916, "base_temp": 35},
+    {"city": "Cagliari", "region": "Sardegna", "lat": 39.2238, "lon": 9.1217, "base_temp": 38},
+    {"city": "Trieste", "region": "Friuli-Venezia Giulia", "lat": 45.6495, "lon": 13.7768, "base_temp": 32},
+    {"city": "Perugia", "region": "Umbria", "lat": 43.1107, "lon": 12.3908, "base_temp": 36},
 ]
 
 # ==================== API ROUTES ====================
