@@ -1,15 +1,35 @@
-@import url('https://fonts.googleapis.com/css2?family=Chivo:wght@400;500;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
-/* DisasterWatch Italy - Tactical Command Center Theme */
+/* RE-ACT Mediterranean - Disaster Risk Management Theme */
 
 :root {
-  --seismic-danger: #EF4444;
-  --flood-warning: #0EA5E9;
-  --heat-alert: #F97316;
-  --safe-green: #10B981;
-  --neutral-grey: #64748B;
-  --glass-bg: rgba(30, 41, 59, 0.4);
-  --glass-border: rgba(255, 255, 255, 0.1);
+  --bg-primary: #0C1A2E;
+  --bg-secondary: #13273E;
+  --bg-card: #162A46;
+  --bg-card-hover: #1a3254;
+  --border-color: #1e3a5f;
+  --border-accent: #2d5a8a;
+  
+  --text-primary: #FFFFFF;
+  --text-secondary: #AAB5C2;
+  --text-muted: #6B7A8A;
+  
+  --accent-cyan: #00D4FF;
+  --accent-teal: #20E3B2;
+  
+  --seismic-color: #34C759;
+  --flood-color: #007AFF;
+  --heat-color: #FF9500;
+  --hospital-color: #20E3B2;
+  
+  --high-risk: #FF3B3B;
+  --medium-risk: #FF9500;
+  --low-risk: #34C759;
+  
+  --section-bar-seismic: #34C759;
+  --section-bar-flood: #007AFF;
+  --section-bar-heat: #FF9500;
+  --section-bar-hospital: #20E3B2;
 }
 
 * {
@@ -18,332 +38,435 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background: hsl(222, 47%, 11%);
-  color: hsl(210, 40%, 98%);
+  background: var(--bg-primary);
+  color: var(--text-primary);
   margin: 0;
   padding: 0;
   min-height: 100vh;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Chivo', sans-serif;
+/* Orbitron for headings */
+.font-display {
+  font-family: 'Orbitron', sans-serif;
+}
+
+h1, h2, h3, .section-title {
+  font-family: 'Orbitron', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 code, .mono {
   font-family: 'JetBrains Mono', monospace;
 }
 
-/* Glass Card Effect */
-.glass-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--glass-border);
-  border-radius: 12px;
-}
-
-/* Status Colors */
-.status-critical {
-  color: var(--seismic-danger);
-  text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
-}
-
-.status-high {
-  color: var(--heat-alert);
-  text-shadow: 0 0 10px rgba(249, 115, 22, 0.5);
-}
-
-.status-moderate {
-  color: #FBBF24;
-}
-
-.status-low {
-  color: var(--safe-green);
-}
-
-/* Alert Badge Animation */
-.alert-pulse {
-  animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes pulse-glow {
-  0%, 100% {
-    opacity: 1;
-    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
-  }
-  50% {
-    opacity: 0.9;
-    box-shadow: 0 0 20px 10px rgba(239, 68, 68, 0);
-  }
-}
-
-/* Map Styles */
-.leaflet-container {
-  background: hsl(222, 47%, 8%) !important;
-  border-radius: 12px;
-}
-
-.leaflet-tile-pane {
-  filter: saturate(0.8) brightness(0.9);
-}
-
-/* Custom Marker Styles */
-.marker-seismic {
-  background: var(--seismic-danger);
-  border: 2px solid white;
-  border-radius: 50%;
-  box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
-}
-
-.marker-flood {
-  background: var(--flood-warning);
-  border: 2px solid white;
-  border-radius: 50%;
-  box-shadow: 0 0 15px rgba(14, 165, 233, 0.6);
-}
-
-.marker-heat {
-  background: var(--heat-alert);
-  border: 2px solid white;
-  border-radius: 50%;
-  box-shadow: 0 0 15px rgba(249, 115, 22, 0.6);
-}
-
-.marker-hospital {
-  background: var(--safe-green);
-  border: 2px solid white;
+/* Card Styles */
+.card-dark {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  box-shadow: 0 0 15px rgba(16, 185, 129, 0.6);
 }
 
-.marker-safezone {
-  background: #6366F1;
-  border: 2px solid white;
-  border-radius: 4px;
-  box-shadow: 0 0 15px rgba(99, 102, 241, 0.6);
+.card-dark:hover {
+  border-color: var(--border-accent);
 }
 
-/* Bento Grid Layout */
-.bento-grid {
-  display: grid;
-  gap: 16px;
-  padding: 16px;
+/* Section Header with Left Bar */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
 }
+
+.section-bar {
+  width: 4px;
+  height: 24px;
+  border-radius: 2px;
+}
+
+.section-bar-seismic { background: var(--seismic-color); }
+.section-bar-flood { background: var(--flood-color); }
+.section-bar-heat { background: var(--heat-color); }
+.section-bar-hospital { background: var(--hospital-color); }
 
 /* Stat Card */
 .stat-card {
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 20px;
-  position: relative;
-  overflow: hidden;
-}
-
-.stat-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: var(--accent-color, var(--neutral-grey));
-}
-
-.stat-card.seismic::before {
-  background: var(--seismic-danger);
-}
-
-.stat-card.flood::before {
-  background: var(--flood-warning);
-}
-
-.stat-card.heat::before {
-  background: var(--heat-alert);
-}
-
-.stat-card.safe::before {
-  background: var(--safe-green);
-}
-
-/* Scrollbar Styling */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(30, 41, 59, 0.5);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(100, 116, 139, 0.5);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(100, 116, 139, 0.7);
-}
-
-/* Alert Feed */
-.alert-feed {
-  max-height: calc(100vh - 200px);
-  overflow-y: auto;
-}
-
-.alert-item {
-  border-left: 3px solid var(--neutral-grey);
-  padding: 12px 16px;
-  margin-bottom: 12px;
-  background: rgba(30, 41, 59, 0.4);
-  border-radius: 0 8px 8px 0;
-}
-
-.alert-item.critical {
-  border-left-color: var(--seismic-danger);
-  background: rgba(239, 68, 68, 0.1);
-}
-
-.alert-item.high {
-  border-left-color: var(--heat-alert);
-  background: rgba(249, 115, 22, 0.1);
-}
-
-.alert-item.moderate {
-  border-left-color: #FBBF24;
-  background: rgba(251, 191, 36, 0.05);
-}
-
-/* Responsive Navigation */
-.nav-tab {
-  padding: 12px 24px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  font-weight: 500;
-  cursor: pointer;
-  border: 1px solid transparent;
-  background: transparent;
-  color: hsl(215, 20%, 65%);
+  padding: 20px 24px;
+  position: relative;
 }
 
-.nav-tab:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: hsl(210, 40%, 98%);
+.stat-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
 }
 
-.nav-tab.active {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
-  color: hsl(210, 40%, 98%);
+.stat-value {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1;
 }
 
-/* Hospital Card */
-.hospital-card {
-  background: rgba(16, 185, 129, 0.05);
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  border-radius: 12px;
-  padding: 16px;
+.stat-value-seismic { color: var(--seismic-color); }
+.stat-value-flood { color: var(--flood-color); }
+.stat-value-heat { color: var(--heat-color); }
+.stat-value-hospital { color: var(--hospital-color); }
+
+.stat-description {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 8px;
 }
 
-/* Grid Lines Background */
-.grid-bg {
-  background-image: 
-    linear-gradient(to right, rgba(128, 128, 128, 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(128, 128, 128, 0.07) 1px, transparent 1px);
-  background-size: 24px 24px;
+.stat-icon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  opacity: 0.6;
 }
 
-/* Data Table */
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.data-table th {
-  text-align: left;
-  padding: 12px 16px;
-  background: rgba(30, 41, 59, 0.6);
-  font-weight: 600;
-  font-size: 12px;
+/* Risk Badge */
+.risk-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: hsl(215, 20%, 65%);
 }
 
-.data-table td {
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+.risk-badge-high {
+  background: var(--high-risk);
+  color: white;
 }
 
-.data-table tr:hover td {
-  background: rgba(255, 255, 255, 0.02);
+.risk-badge-medium {
+  background: var(--medium-risk);
+  color: white;
 }
 
-/* Loading Skeleton */
-.skeleton {
-  background: linear-gradient(90deg, rgba(30, 41, 59, 0.6) 0%, rgba(51, 65, 85, 0.6) 50%, rgba(30, 41, 59, 0.6) 100%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: 8px;
+.risk-badge-low {
+  background: var(--low-risk);
+  color: white;
 }
 
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-/* Gauge Progress */
-.gauge-container {
-  position: relative;
-  width: 100%;
-  height: 8px;
-  background: rgba(30, 41, 59, 0.8);
+/* Alert Item */
+.alert-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--heat-color);
   border-radius: 4px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+}
+
+.alert-item-heat { border-left-color: var(--heat-color); }
+.alert-item-flood { border-left-color: var(--flood-color); }
+.alert-item-seismic { border-left-color: var(--seismic-color); }
+
+/* Event Card */
+.event-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.event-card:hover {
+  border-color: var(--border-accent);
+  background: var(--bg-card-hover);
+}
+
+.event-magnitude {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+/* Action Buttons */
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.action-btn-primary {
+  background: rgba(0, 212, 255, 0.1);
+  border: 1px solid var(--accent-cyan);
+  color: var(--accent-cyan);
+}
+
+.action-btn-primary:hover {
+  background: rgba(0, 212, 255, 0.2);
+}
+
+.action-btn-secondary {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+.action-btn-secondary:hover {
+  border-color: var(--border-accent);
+  color: var(--text-primary);
+}
+
+.action-btn-danger {
+  background: rgba(255, 59, 59, 0.1);
+  border: 1px solid var(--high-risk);
+  color: var(--high-risk);
+}
+
+.action-btn-danger:hover {
+  background: rgba(255, 59, 59, 0.2);
+}
+
+/* Prediction Item */
+.prediction-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.prediction-item:last-child {
+  border-bottom: none;
+}
+
+/* Progress Bar */
+.progress-bar {
+  height: 6px;
+  background: var(--bg-primary);
+  border-radius: 3px;
   overflow: hidden;
 }
 
-.gauge-fill {
+.progress-bar-fill {
   height: 100%;
-  border-radius: 4px;
-  transition: width 0.5s ease-out;
+  border-radius: 3px;
+  transition: width 0.3s;
 }
 
-.gauge-fill.low { background: var(--safe-green); }
-.gauge-fill.moderate { background: #FBBF24; }
-.gauge-fill.high { background: var(--heat-alert); }
-.gauge-fill.critical { background: var(--seismic-danger); }
+.progress-bar-fill-cyan { background: var(--accent-cyan); }
+.progress-bar-fill-red { background: var(--high-risk); }
 
-/* Leaflet Popup Customization */
+/* Top Navigation */
+.nav-container {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.nav-link:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-link-active {
+  color: var(--accent-cyan);
+  background: rgba(0, 212, 255, 0.1);
+}
+
+/* Alert Notification */
+.alert-notification {
+  background: rgba(30, 30, 30, 0.95);
+  border: 1px solid var(--medium-risk);
+  border-radius: 8px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Status Badge */
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-badge-online {
+  background: rgba(32, 227, 178, 0.15);
+  border: 1px solid var(--accent-teal);
+  color: var(--accent-teal);
+}
+
+/* Map Container */
+.map-container {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Leaflet overrides */
+.leaflet-container {
+  background: var(--bg-primary) !important;
+}
+
 .leaflet-popup-content-wrapper {
-  background: hsl(217, 33%, 17%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  color: hsl(210, 40%, 98%);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
 }
 
 .leaflet-popup-tip {
-  background: hsl(217, 33%, 17%);
+  background: var(--bg-secondary);
 }
 
-.leaflet-popup-close-button {
-  color: hsl(215, 20%, 65%) !important;
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-  .bento-grid {
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-accent);
+}
+
+/* Stats Table */
+.stats-table {
+  width: 100%;
+}
+
+.stats-table-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.stats-table-row:last-child {
+  border-bottom: none;
+}
+
+.stats-table-label {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.stats-table-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+}
+
+/* Privacy Notice */
+.privacy-notice {
+  background: rgba(0, 212, 255, 0.05);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.privacy-notice-title {
+  color: var(--accent-cyan);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+/* Equipment Tags */
+.equipment-tag {
+  display: inline-flex;
+  padding: 4px 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-right: 4px;
+  margin-bottom: 4px;
+}
+
+/* Grid Layouts */
+.bento-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.bento-3col {
+  grid-template-columns: 280px 1fr 280px;
+}
+
+@media (max-width: 1200px) {
+  .bento-3col {
     grid-template-columns: 1fr;
-    padding: 8px;
-    gap: 12px;
   }
-  
-  .stat-card {
-    padding: 16px;
+}
+
+/* Animation */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 1;
   }
-  
-  .nav-tab {
-    padding: 8px 16px;
-    font-size: 14px;
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
   }
+}
+
+.pulse-ring::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  animation: pulse-ring 2s infinite;
 }
