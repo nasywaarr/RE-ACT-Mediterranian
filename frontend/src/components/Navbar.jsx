@@ -1,60 +1,52 @@
 import { Link, useLocation } from "react-router-dom";
-import { Activity, Waves, Thermometer, Building2, Shield, LayoutDashboard } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Activity, Droplets, Thermometer, Building2, Target, LayoutDashboard, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const Navbar = ({ dashboardData }) => {
   const location = useLocation();
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [showAlert, setShowAlert] = useState(true);
+  
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const totalAlerts = dashboardData?.active_alerts?.total || 0;
   
   const navItems = [
     { path: "/", label: "Dashboard", icon: LayoutDashboard },
     { path: "/seismic", label: "Seismic", icon: Activity },
-    { path: "/flood", label: "Flood", icon: Waves },
+    { path: "/flood", label: "Flood Risk", icon: Droplets },
     { path: "/heatwave", label: "Heat Wave", icon: Thermometer },
     { path: "/hospitals", label: "Hospitals", icon: Building2 },
-    { path: "/admin", label: "Admin", icon: Shield },
+    { path: "/admin", label: "Accuracy", icon: Target },
   ];
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "critical": return "bg-red-500";
-      case "high": return "bg-orange-500";
-      case "moderate": return "bg-yellow-500";
-      default: return "bg-green-500";
-    }
-  };
-
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-card/80 backdrop-blur-xl border-b border-white/10" data-testid="navbar">
-      <div className="max-w-[1800px] mx-auto px-4 md:px-6">
-        <div className="flex items-center justify-between h-16">
+    <nav className="fixed top-0 left-0 right-0 z-50 nav-container" data-testid="navbar">
+      <div className="max-w-[1920px] mx-auto px-6">
+        <div className="flex items-center justify-between h-14">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group" data-testid="nav-logo">
-            <div className="relative">
-              <div className="w-10 h-10 bg-gradient-to-br from-red-500 via-orange-500 to-sky-500 rounded-lg flex items-center justify-center">
-                <Shield className="w-6 h-6 text-white" />
-              </div>
-              {dashboardData?.overall_status && (
-                <span 
-                  className={cn(
-                    "absolute -top-1 -right-1 w-3 h-3 rounded-full border-2 border-card",
-                    getStatusColor(dashboardData.overall_status),
-                    dashboardData.overall_status === "critical" && "animate-pulse"
-                  )}
-                />
-              )}
+          <Link to="/" className="flex items-center gap-3" data-testid="nav-logo">
+            <div className="relative w-8 h-8">
+              <div className="absolute inset-0 rounded-full border-2 border-[#00D4FF]" />
+              <div className="absolute inset-1 rounded-full border border-[#00D4FF] opacity-50" />
             </div>
-            <div className="hidden sm:block">
-              <h1 className="font-bold text-lg font-['Chivo'] tracking-tight text-foreground">
-                DisasterWatch
+            <div>
+              <h1 className="font-display text-sm font-bold tracking-wider">
+                <span className="text-white">RE-ACT</span>{" "}
+                <span className="text-[#00D4FF]">Mediterranean</span>
               </h1>
-              <p className="text-[10px] text-muted-foreground uppercase tracking-widest">
-                Italy Emergency Monitor
+              <p className="text-[10px] text-[#AAB5C2] uppercase tracking-widest">
+                Disaster Risk Management
               </p>
             </div>
           </Link>
 
           {/* Navigation Links */}
-          <div className="flex items-center gap-1 md:gap-2">
+          <div className="flex items-center gap-1">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
@@ -65,39 +57,45 @@ export const Navbar = ({ dashboardData }) => {
                   to={item.path}
                   data-testid={`nav-${item.label.toLowerCase().replace(' ', '-')}`}
                   className={cn(
-                    "flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
-                    isActive 
-                      ? "bg-white/10 text-foreground" 
-                      : "text-muted-foreground hover:text-foreground hover:bg-white/5"
+                    "nav-link",
+                    isActive && "nav-link-active"
                   )}
                 >
                   <Icon className="w-4 h-4" />
-                  <span className="hidden md:inline">{item.label}</span>
+                  <span className="hidden lg:inline">{item.label}</span>
                 </Link>
               );
             })}
           </div>
 
-          {/* Status Indicator */}
-          {dashboardData && (
-            <div className="hidden lg:flex items-center gap-4" data-testid="status-indicator">
-              <div className="flex items-center gap-2 text-sm">
-                <span className="text-muted-foreground">Status:</span>
-                <span className={cn(
-                  "px-2 py-1 rounded text-xs font-bold uppercase tracking-wider",
-                  dashboardData.overall_status === "critical" && "bg-red-500/20 text-red-400",
-                  dashboardData.overall_status === "high" && "bg-orange-500/20 text-orange-400",
-                  dashboardData.overall_status === "moderate" && "bg-yellow-500/20 text-yellow-400",
-                  dashboardData.overall_status === "normal" && "bg-green-500/20 text-green-400"
-                )}>
-                  {dashboardData.overall_status}
+          {/* Right Side - Time & Status */}
+          <div className="flex items-center gap-4">
+            {/* Alert Notification */}
+            {totalAlerts > 0 && showAlert && (
+              <div className="alert-notification hidden lg:flex" data-testid="alert-notification">
+                <AlertTriangle className="w-5 h-5 text-[#FF9500]" />
+                <span className="text-sm text-white">
+                  {totalAlerts} active risk alerts detected
                 </span>
               </div>
-              <div className="text-xs text-muted-foreground font-mono">
-                {new Date().toLocaleTimeString("it-IT")}
+            )}
+
+            {/* Time Display */}
+            <div className="text-right hidden md:block" data-testid="time-display">
+              <div className="font-mono text-lg font-bold text-white">
+                {currentTime.toLocaleTimeString("it-IT", { hour12: false })}
+              </div>
+              <div className="text-[10px] text-[#AAB5C2] uppercase tracking-wider">
+                {currentTime.toLocaleDateString("it-IT")} UTC+1
               </div>
             </div>
-          )}
+
+            {/* Online Status */}
+            <div className="status-badge status-badge-online" data-testid="status-online">
+              <span className="w-2 h-2 bg-[#20E3B2] rounded-full animate-pulse" />
+              <span>Online</span>
+            </div>
+          </div>
         </div>
       </div>
     </nav>
