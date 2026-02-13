@@ -1,34 +1,349 @@
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+@import url('https://fonts.googleapis.com/css2?family=Chivo:wght@400;500;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* DisasterWatch Italy - Tactical Command Center Theme */
+
+:root {
+  --seismic-danger: #EF4444;
+  --flood-warning: #0EA5E9;
+  --heat-alert: #F97316;
+  --safe-green: #10B981;
+  --neutral-grey: #64748B;
+  --glass-bg: rgba(30, 41, 59, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.1);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+* {
+  box-sizing: border-box;
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+body {
+  font-family: 'Inter', sans-serif;
+  background: hsl(222, 47%, 11%);
+  color: hsl(210, 40%, 98%);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
 }
 
-.App-link {
-    color: #61dafb;
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Chivo', sans-serif;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+code, .mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Glass Card Effect */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+}
+
+/* Status Colors */
+.status-critical {
+  color: var(--seismic-danger);
+  text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+
+.status-high {
+  color: var(--heat-alert);
+  text-shadow: 0 0 10px rgba(249, 115, 22, 0.5);
+}
+
+.status-moderate {
+  color: #FBBF24;
+}
+
+.status-low {
+  color: var(--safe-green);
+}
+
+/* Alert Badge Animation */
+.alert-pulse {
+  animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  50% {
+    opacity: 0.9;
+    box-shadow: 0 0 20px 10px rgba(239, 68, 68, 0);
+  }
+}
+
+/* Map Styles */
+.leaflet-container {
+  background: hsl(222, 47%, 8%) !important;
+  border-radius: 12px;
+}
+
+.leaflet-tile-pane {
+  filter: saturate(0.8) brightness(0.9);
+}
+
+/* Custom Marker Styles */
+.marker-seismic {
+  background: var(--seismic-danger);
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+}
+
+.marker-flood {
+  background: var(--flood-warning);
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(14, 165, 233, 0.6);
+}
+
+.marker-heat {
+  background: var(--heat-alert);
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(249, 115, 22, 0.6);
+}
+
+.marker-hospital {
+  background: var(--safe-green);
+  border: 2px solid white;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.6);
+}
+
+.marker-safezone {
+  background: #6366F1;
+  border: 2px solid white;
+  border-radius: 4px;
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.6);
+}
+
+/* Bento Grid Layout */
+.bento-grid {
+  display: grid;
+  gap: 16px;
+  padding: 16px;
+}
+
+/* Stat Card */
+.stat-card {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent-color, var(--neutral-grey));
+}
+
+.stat-card.seismic::before {
+  background: var(--seismic-danger);
+}
+
+.stat-card.flood::before {
+  background: var(--flood-warning);
+}
+
+.stat-card.heat::before {
+  background: var(--heat-alert);
+}
+
+.stat-card.safe::before {
+  background: var(--safe-green);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.7);
+}
+
+/* Alert Feed */
+.alert-feed {
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+.alert-item {
+  border-left: 3px solid var(--neutral-grey);
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  background: rgba(30, 41, 59, 0.4);
+  border-radius: 0 8px 8px 0;
+}
+
+.alert-item.critical {
+  border-left-color: var(--seismic-danger);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.alert-item.high {
+  border-left-color: var(--heat-alert);
+  background: rgba(249, 115, 22, 0.1);
+}
+
+.alert-item.moderate {
+  border-left-color: #FBBF24;
+  background: rgba(251, 191, 36, 0.05);
+}
+
+/* Responsive Navigation */
+.nav-tab {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background: transparent;
+  color: hsl(215, 20%, 65%);
+}
+
+.nav-tab:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: hsl(210, 40%, 98%);
+}
+
+.nav-tab.active {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: hsl(210, 40%, 98%);
+}
+
+/* Hospital Card */
+.hospital-card {
+  background: rgba(16, 185, 129, 0.05);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+/* Grid Lines Background */
+.grid-bg {
+  background-image: 
+    linear-gradient(to right, rgba(128, 128, 128, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(128, 128, 128, 0.07) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Data Table */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th {
+  text-align: left;
+  padding: 12px 16px;
+  background: rgba(30, 41, 59, 0.6);
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: hsl(215, 20%, 65%);
+}
+
+.data-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.data-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Loading Skeleton */
+.skeleton {
+  background: linear-gradient(90deg, rgba(30, 41, 59, 0.6) 0%, rgba(51, 65, 85, 0.6) 50%, rgba(30, 41, 59, 0.6) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Gauge Progress */
+.gauge-container {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  background: rgba(30, 41, 59, 0.8);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.gauge-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease-out;
+}
+
+.gauge-fill.low { background: var(--safe-green); }
+.gauge-fill.moderate { background: #FBBF24; }
+.gauge-fill.high { background: var(--heat-alert); }
+.gauge-fill.critical { background: var(--seismic-danger); }
+
+/* Leaflet Popup Customization */
+.leaflet-popup-content-wrapper {
+  background: hsl(217, 33%, 17%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: hsl(210, 40%, 98%);
+}
+
+.leaflet-popup-tip {
+  background: hsl(217, 33%, 17%);
+}
+
+.leaflet-popup-close-button {
+  color: hsl(215, 20%, 65%) !important;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+    padding: 8px;
+    gap: 12px;
+  }
+  
+  .stat-card {
+    padding: 16px;
+  }
+  
+  .nav-tab {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
 }
