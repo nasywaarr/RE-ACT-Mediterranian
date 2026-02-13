@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Chivo:wght@400;500;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 body {
   margin: 0;
@@ -17,30 +17,30 @@ code {
 
 @layer base {
   :root {
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
-    --card: 217 33% 17%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222 47% 11%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222 47% 11%;
-    --secondary: 217 19% 27%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217 19% 27%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 217 19% 27%;
-    --accent-foreground: 210 40% 98%;
+    --background: 210 50% 11%;
+    --foreground: 0 0% 100%;
+    --card: 210 45% 17%;
+    --card-foreground: 0 0% 100%;
+    --popover: 210 50% 11%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 190 100% 50%;
+    --primary-foreground: 210 50% 11%;
+    --secondary: 210 35% 25%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 210 35% 25%;
+    --muted-foreground: 210 20% 70%;
+    --accent: 210 35% 25%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217 19% 27%;
-    --input: 217 19% 27%;
-    --ring: 212 100% 50%;
-    --chart-1: 0 84% 60%;
-    --chart-2: 199 89% 48%;
-    --chart-3: 25 95% 53%;
-    --chart-4: 142 71% 45%;
-    --chart-5: 262 83% 58%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 40% 22%;
+    --input: 210 40% 22%;
+    --ring: 190 100% 50%;
+    --chart-1: 142 71% 45%;
+    --chart-2: 211 100% 50%;
+    --chart-3: 36 100% 50%;
+    --chart-4: 0 84% 60%;
+    --chart-5: 168 76% 42%;
     --radius: 0.5rem;
   }
 }
@@ -51,17 +51,12 @@ code {
   }
   body {
     @apply bg-background text-foreground;
-  }
-}
-
-@layer base {
-  [data-debug-wrapper="true"] {
-    display: contents !important;
+    background: #0C1A2E;
   }
 }
 
 /* Custom scrollbar for dark theme */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(100, 116, 139, 0.5) rgba(30, 41, 59, 0.5);
+  scrollbar-color: #1e3a5f #0C1A2E;
 }
