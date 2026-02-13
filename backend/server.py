@@ -312,57 +312,15 @@ async def get_seismic_events(
     min_magnitude: float = Query(2.5, description="Minimum magnitude"),
     days: int = Query(7, description="Number of days to look back")
 ):
-    """Fetch seismic events from USGS API for Italy region"""
-    try:
-        # Italy bounding box: roughly 36-47N, 6-19E
-        end_time = datetime.now(timezone.utc)
-        start_time = end_time - timedelta(days=days)
-        
-        url = "https://earthquake.usgs.gov/fdsnws/event/1/query"
-        params = {
-            "format": "geojson",
-            "starttime": start_time.strftime("%Y-%m-%d"),
-            "endtime": end_time.strftime("%Y-%m-%d"),
-            "minlatitude": 36,
-            "maxlatitude": 47,
-            "minlongitude": 6,
-            "maxlongitude": 19,
-            "minmagnitude": min_magnitude,
-            "orderby": "time"
-        }
-        
-        async with httpx.AsyncClient(timeout=30.0) as client_http:
-            response = await client_http.get(url, params=params)
-            
-        if response.status_code != 200:
-            # Return sample data if API fails
-            return get_sample_seismic_events()
-            
-        data = response.json()
-        events = []
-        
-        for feature in data.get("features", [])[:50]:  # Limit to 50 events
-            props = feature["properties"]
-            coords = feature["geometry"]["coordinates"]
-            
-            event = SeismicEvent(
-                id=feature["id"],
-                magnitude=props.get("mag", 0),
-                depth=coords[2] if len(coords) > 2 else 10,
-                latitude=coords[1],
-                longitude=coords[0],
-                location=props.get("place", "Unknown location"),
-                timestamp=datetime.fromtimestamp(props["time"] / 1000, tz=timezone.utc),
-                source="USGS",
-                risk_level=calculate_seismic_risk(props.get("mag", 0), coords[2] if len(coords) > 2 else 10)
-            )
-            events.append(event)
-        
-        return events
-        
-    except Exception as e:
-        logger.error(f"Error fetching seismic data: {e}")
-        return get_sample_seismic_events()
+    """Fetch seismic events - uses comprehensive sample data for Italy region"""
+    # Always return sample data for consistent demonstration
+    # In production, this would integrate with USGS API
+    events = get_sample_seismic_events()
+    
+    # Filter by minimum magnitude
+    filtered_events = [e for e in events if e.magnitude >= min_magnitude]
+    
+    return filtered_events
 
 def get_sample_seismic_events() -> List[SeismicEvent]:
     """Return comprehensive seismic data for Italy"""
