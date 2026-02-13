@@ -586,12 +586,18 @@ async def update_hospital(hospital_id: str, update_data: HospitalUpdate):
 @api_router.get("/hospitals/stats")
 async def get_hospital_stats():
     """Get aggregate hospital statistics"""
-    hospitals = await get_hospitals()
+    # Get raw hospital data from DB
+    query = {}
+    hospitals = await db.hospitals.find(query, {"_id": 0}).to_list(100)
     
-    total_beds = sum([h.total_beds for h in hospitals])
-    available_beds = sum([h.available_beds for h in hospitals])
-    total_icu = sum([h.icu_beds for h in hospitals])
-    available_icu = sum([h.icu_available for h in hospitals])
+    if not hospitals:
+        await initialize_hospitals()
+        hospitals = await db.hospitals.find(query, {"_id": 0}).to_list(100)
+    
+    total_beds = sum([h.get('total_beds', 0) for h in hospitals])
+    available_beds = sum([h.get('available_beds', 0) for h in hospitals])
+    total_icu = sum([h.get('icu_beds', 0) for h in hospitals])
+    available_icu = sum([h.get('icu_available', 0) for h in hospitals])
     
     return {
         "total_hospitals": len(hospitals),
@@ -601,7 +607,7 @@ async def get_hospital_stats():
         "total_icu": total_icu,
         "available_icu": available_icu,
         "icu_occupancy_rate": round((total_icu - available_icu) / total_icu * 100, 1) if total_icu > 0 else 0,
-        "emergency_ready": len([h for h in hospitals if h.emergency_capacity])
+        "emergency_ready": len([h for h in hospitals if h.get('emergency_capacity', False)])
     }
 
 @api_router.get("/hospitals/nearby")
