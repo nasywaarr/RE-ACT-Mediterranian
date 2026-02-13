@@ -613,12 +613,23 @@ async def get_hospital_stats():
 @api_router.get("/hospitals/nearby")
 async def get_nearby_hospitals(lat: float, lon: float, limit: int = 5):
     """Get nearest hospitals to a location"""
-    hospitals = await get_hospitals()
+    # Get raw hospital data from DB
+    hospitals = await db.hospitals.find({}, {"_id": 0}).to_list(100)
+    
+    if not hospitals:
+        await initialize_hospitals()
+        hospitals = await db.hospitals.find({}, {"_id": 0}).to_list(100)
     
     def distance(h):
-        return ((h.latitude - lat) ** 2 + (h.longitude - lon) ** 2) ** 0.5
+        return ((h.get('latitude', 0) - lat) ** 2 + (h.get('longitude', 0) - lon) ** 2) ** 0.5
     
     sorted_hospitals = sorted(hospitals, key=distance)
+    
+    # Convert timestamps for response
+    for h in sorted_hospitals[:limit]:
+        if isinstance(h.get('last_updated'), str):
+            h['last_updated'] = datetime.fromisoformat(h['last_updated'])
+    
     return sorted_hospitals[:limit]
 
 # ==================== SAFE ZONES ENDPOINTS ====================
